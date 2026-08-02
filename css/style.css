@@ -38,13 +38,27 @@
 }
 
 * { box-sizing: border-box; }
+html {
+    overflow-x: hidden;
+    width: 100%;
+}
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--dark);
     line-height: 1.65;
     overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
     background: linear-gradient(180deg, #fffdf9 0%, #fff7eb 100%);
     min-height: 100vh;
+}
+img, video, iframe, svg {
+    max-width: 100%;
+}
+.container, .container-fluid {
+    max-width: 100%;
 }
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Poppins', sans-serif;
@@ -84,6 +98,8 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
     gap: 12px;
     padding: 0 !important;
+    max-width: 100%;
+    min-width: 0;
 }
 .navbar-brand img {
     width: 52px; height: 52px;
@@ -94,6 +110,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     flex-direction: column;
     line-height: 1.1;
+    min-width: 0;
 }
 .brand-name {
     font-family: 'Poppins', sans-serif;
@@ -672,9 +689,10 @@ h1, h2, h3, h4, h5, h6 {
     .hero-logo-large { width: 220px; height: 220px; margin: 0 auto 2rem; display: block; }
     .top-bar { display: none; }
     .navbar { padding: 8px 0; }
-    .navbar-brand img { width: 44px; height: 44px; }
-    .brand-name { font-size: 1.1rem; }
+    .navbar-brand img { width: 44px; height: 44px; flex-shrink: 0; }
+    .brand-name { font-size: 1.1rem; white-space: normal; }
     .brand-tag { font-size: 0.6rem; }
+    .navbar-brand { gap: 8px; }
     .navbar-collapse { padding-top: 0.5rem; }
     .navbar-nav { gap: 0.2rem; }
     .navbar .nav-item { width: 100%; }

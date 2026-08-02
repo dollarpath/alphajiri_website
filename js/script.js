@@ -2,6 +2,41 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
+    function applyResponsiveMode() {
+        const isMobile = window.matchMedia('(max-width: 991px)').matches ||
+            window.matchMedia('(pointer: coarse)').matches ||
+            /Android|iPhone|iPad|Mobile|Windows Phone/i.test(navigator.userAgent);
+
+        document.body.classList.toggle('is-mobile', isMobile);
+        document.body.classList.toggle('is-desktop', !isMobile);
+    }
+
+    applyResponsiveMode();
+    window.addEventListener('resize', applyResponsiveMode);
+
+    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href) return;
+
+        const linkPath = href.split('/').pop();
+        if (linkPath === currentPath || (currentPath === '' && linkPath === 'index.html')) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+
+    const navMenu = document.getElementById('mainNav');
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth <= 991 && navMenu?.classList.contains('show')) {
+                const collapse = window.bootstrap?.Collapse.getOrCreateInstance(navMenu);
+                collapse?.hide();
+            }
+        });
+    });
+
     // === INSTANT QUOTE CALCULATOR ===
     const serviceSelect = document.getElementById('serviceType');
     const sizeSelect = document.getElementById('propertySize');

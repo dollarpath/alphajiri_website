@@ -78,16 +78,12 @@
                 <div class="service-card p-4 p-md-5">
                     <div class="text-center mb-4">
                         <span class="subtitle-text">Free · No Obligation</span>
-                        <p class="text-muted">Answer these 6 quick questions. Our team confirms within 30 minutes.</p>
+                        <p class="text-muted">Share the moving details below and we’ll prepare your quote on WhatsApp.</p>
                     </div>
-                        <form action="https://formsubmit.co/alphajirimovers@gmail.com" method="POST">
-                        <input type="hidden" name="_subject" value="New Quote Request from Alphajiri Website">
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_next" value="thank-you.html">
+                    <form id="quoteForm" novalidate>
                         <div class="row g-3">
                             <div class="col-md-6"><label class="form-label">Full Name *</label><input type="text" class="form-control" name="Full Name" placeholder="Your full name" required></div>
                             <div class="col-md-6"><label class="form-label">Phone *</label><input type="tel" class="form-control" name="Phone" placeholder="+254 7XX XXX XXX" required></div>
-                            <div class="col-12"><label class="form-label">Email (optional)</label><input type="email" class="form-control" name="Email" placeholder="you@example.com"></div>
                             <div class="col-md-6"><label class="form-label">Service Type *</label>
                                 <select class="form-select" id="serviceType" name="Service" required>
                                     <option value="">-- Choose service --</option>
@@ -104,25 +100,16 @@
                                     <option value="Combo" data-price="12000">Move + Clean Combo</option>
                                 </select>
                             </div>
-                            <div class="col-md-6"><label class="form-label">Property Size *</label>
-                                <select class="form-select" id="propertySize" name="Property Size" required>
-                                    <option value="">-- Choose size --</option>
-                                    <option value="Studio / Bedsitter" data-mult="1.0">Studio / Bedsitter</option>
-                                    <option value="1 Bedroom" data-mult="1.3">1 Bedroom</option>
-                                    <option value="2 Bedroom" data-mult="1.7">2 Bedroom</option>
-                                    <option value="3 Bedroom" data-mult="2.2">3 Bedroom</option>
-                                    <option value="4+ Bedroom / Maisonette" data-mult="3.0">4+ Bedroom / Maisonette</option>
-                                    <option value="Small Office (&lt; 20 staff)" data-mult="2.5">Small Office (&lt; 20 staff)</option>
-                                    <option value="Large Office (20+ staff)" data-mult="4.5">Large Office (20+ staff)</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6"><label class="form-label">Pickup Location *</label><input type="text" class="form-control" name="Pickup Location" placeholder="e.g. Donholm, Nairobi" required></div>
-                            <div class="col-md-6"><label class="form-label">Dropoff Location</label><input type="text" class="form-control" name="Dropoff Location" placeholder="e.g. Kilimani"></div>
+                            <div class="col-md-6"><label class="form-label">Property Size *</label><input type="text" class="form-control" id="propertySize" name="Property Size" placeholder="e.g. 2 Bedroom / office / 3-bedroom apartment" required></div>
+                            <div id="pickupLocationGroup" class="col-md-6" style="display:none;"><label class="form-label">Pickup Location *</label><input type="text" class="form-control" name="Pickup Location" placeholder="e.g. Donholm, Nairobi"></div>
+                            <div id="pickupFloorGroup" class="col-md-6" style="display:none;"><label class="form-label">Pickup Floor</label><input type="text" class="form-control" name="Pickup Floor" placeholder="e.g. 2nd Floor"></div>
+                            <div id="dropoffLocationGroup" class="col-md-6" style="display:none;"><label class="form-label">Dropoff Location *</label><input type="text" class="form-control" name="Dropoff Location" placeholder="e.g. Kilimani"></div>
+                            <div id="dropoffFloorGroup" class="col-md-6" style="display:none;"><label class="form-label">Dropoff Floor</label><input type="text" class="form-control" name="Dropoff Floor" placeholder="e.g. 4th Floor"></div>
                             <div class="col-md-6"><label class="form-label">Preferred Date *</label><input type="date" class="form-control" name="Preferred Date" required></div>
-                            <div class="col-12"><label class="form-label">Additional Notes</label><textarea class="form-control" name="Notes" rows="3" placeholder="Special items, access notes..."></textarea></div>
+                            <div class="col-12"><label class="form-label">Additional Notes</label><textarea class="form-control" name="Notes" rows="3" placeholder="Special items, items to be moved, access notes..."></textarea></div>
                             
                             <div class="col-12">
-                                <button type="submit" class="btn btn-accent btn-lg w-100"><i class="bi bi-send-fill"></i> Submit Quote Request</button>
+                                <button type="submit" class="btn btn-accent btn-lg w-100"><i class="bi bi-whatsapp"></i> Send Quote Request on WhatsApp</button>
                                 <p class="text-muted small mt-2 mb-0 text-center"><i class="bi bi-shield-lock"></i> Your details are private and never shared.</p>
                             </div>
                         </div>
@@ -130,12 +117,12 @@
                 </div>
             </div>
             <div class="col-lg-4" data-aos="fade-left">
-                <div class="service-card mb-4">
+                <div class="service-card mb-4" id="quote-form">
                     <h5 style="color: var(--primary);"><i class="bi bi-info-circle-fill" style="color: var(--accent);"></i> How It Works</h5>
                     <ol class="mt-3 ps-3">
-                        <li class="mb-2">Submit your quote request</li>
-                        <li class="mb-2">Our team calls to confirm</li>
-                        <li class="mb-2">Get your final quote &amp; schedule</li>
+                        <li class="mb-2">Fill in your move details</li>
+                        <li class="mb-2">We prepare your quote on WhatsApp</li>
+                        <li class="mb-2">Our team responds with pricing and schedule</li>
                         <li>Sit back — we handle everything!</li>
                     </ol>
                 </div>
@@ -143,7 +130,7 @@
                     <h5 style="color: var(--primary);"><i class="bi bi-headset" style="color: var(--accent);"></i> Prefer to Talk?</h5>
                     <p class="text-muted small">Our team is standing by:</p>
                     <a href="tel:+254708076946" class="btn btn-primary-custom w-100 mb-2"><i class="bi bi-telephone"></i> +254 708 076 946</a>
-                    <a href="https://wa.me/254708076946?text=Hi%20Alphajiri!%20%F0%9F%91%8B%20I'm%20interested%20in%20your%20services.%20Could%20you%20send%20me%20pricing%20info%3F%0A%0AService%20needed%3A%20%5BMoving%20%2F%20Cleaning%5D%2C%20Size%20of%20the%20house%0ALocation%3A%0APreferred%20date%3A" class="btn btn-whatsapp w-100"><i class="bi bi-whatsapp"></i> Chat on WhatsApp</a>
+                    <a href="quote.html#quote-form" class="btn btn-whatsapp w-100"><i class="bi bi-whatsapp"></i> Get Free Quote</a>
                 </div>
             </div>
         </div>
@@ -164,7 +151,7 @@
                     <a href="#" class="social-icon me-2"><i class="bi bi-instagram"></i></a>
                     <a href="#" class="social-icon me-2"><i class="bi bi-tiktok"></i></a>
                     <a href="#" class="social-icon me-2"><i class="bi bi-linkedin"></i></a>
-                    <a href="https://wa.me/254708076946?text=Hi%20Alphajiri!%20%F0%9F%91%8B%20I'm%20interested%20in%20your%20services.%20Could%20you%20send%20me%20pricing%20info%3F%0A%0AService%20needed%3A%20%5BMoving%20%2F%20Cleaning%5D%2C%20Size%20of%20the%20house%0ALocation%3A%0APreferred%20date%3A" class="social-icon"><i class="bi bi-whatsapp"></i></a>
+                    <a href="quote.html#quote-form" class="social-icon"><i class="bi bi-whatsapp"></i></a>
                 </div>
             </div>
             <div class="col-lg-2 col-md-6">
@@ -194,7 +181,7 @@
                 <p class="mb-2"><i class="bi bi-telephone-fill me-2" style="color:var(--accent);"></i> +254 708 076 946</p>
                 <p class="mb-2"><i class="bi bi-telephone-fill me-2" style="color:var(--accent);"></i> +254 750 428 999</p>
                 <p class="mb-2"><i class="bi bi-envelope-fill me-2" style="color:var(--accent);"></i> alphajirimovers@gmail.com</p>
-                <p class="mb-2"><i class="bi bi-clock-fill me-2" style="color:var(--accent);"></i> Mon–Sat: 7am – 7pm</p>
+                <p class="mb-2"><i class="bi bi-clock-fill me-2" style="color:var(--accent);"></i> Available at your request</p>
             </div>
         </div>
         <hr>
@@ -208,7 +195,7 @@
     </div>
 </footer>
 
-<a href="https://wa.me/254708076946?text=Hi%20Alphajiri!%20%F0%9F%91%8B%20I'm%20interested%20in%20your%20services.%20Could%20you%20send%20me%20pricing%20info%3F%0A%0AService%20needed%3A%20%5BMoving%20%2F%20Cleaning%5D%2C%20Size%20of%20the%20house%0ALocation%3A%0APreferred%20date%3A" class="whatsapp-float" target="_blank" title="Chat on WhatsApp">
+<a href="quote.html#quote-form" class="whatsapp-float" title="Get Free Quote">
     <i class="bi bi-whatsapp"></i>
 </a>
 

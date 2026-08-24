@@ -63,6 +63,118 @@ document.addEventListener('DOMContentLoaded', function() {
     if (serviceSelect) serviceSelect.addEventListener('change', calculateEstimate);
     if (sizeSelect) sizeSelect.addEventListener('change', calculateEstimate);
 
+    const quoteForm = document.getElementById('quoteForm');
+    const movingServiceNames = [
+        'Home Moving',
+        'Office Relocation',
+        'Packing Services',
+        'General Cleaning',
+        'Pet Relocation',
+        'Courier',
+        'Combo'
+    ];
+
+    function updateLocationFields() {
+        const serviceValue = serviceSelect ? serviceSelect.value : '';
+        const isMovingService = movingServiceNames.includes(serviceValue);
+        const pickupLocationGroup = document.getElementById('pickupLocationGroup');
+        const pickupFloorGroup = document.getElementById('pickupFloorGroup');
+        const dropoffLocationGroup = document.getElementById('dropoffLocationGroup');
+        const dropoffFloorGroup = document.getElementById('dropoffFloorGroup');
+
+        const locationFields = [pickupLocationGroup, pickupFloorGroup, dropoffLocationGroup, dropoffFloorGroup];
+        locationFields.forEach(group => {
+            if (!group) return;
+            const display = isMovingService ? 'block' : 'none';
+            group.style.display = display;
+        });
+
+        const pickupLocationInput = document.querySelector('input[name="Pickup Location"]');
+        const dropoffLocationInput = document.querySelector('input[name="Dropoff Location"]');
+
+        const toggleRequired = (input, required) => {
+            if (!input) return;
+            input.required = required;
+            input.setAttribute('aria-required', required ? 'true' : 'false');
+        };
+
+        toggleRequired(pickupLocationInput, isMovingService);
+        toggleRequired(dropoffLocationInput, isMovingService);
+    }
+
+    if (quoteForm) {
+        serviceSelect && serviceSelect.addEventListener('change', updateLocationFields);
+        updateLocationFields();
+
+        quoteForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const isMovingService = movingServiceNames.includes(serviceSelect ? serviceSelect.value : '');
+            if (isMovingService) {
+                const pickupLocationInput = document.querySelector('input[name="Pickup Location"]');
+                const dropoffLocationInput = document.querySelector('input[name="Dropoff Location"]');
+                if (!pickupLocationInput.value.trim() || !dropoffLocationInput.value.trim()) {
+                    quoteForm.reportValidity();
+                    return;
+                }
+            }
+
+            if (!quoteForm.checkValidity()) {
+                quoteForm.reportValidity();
+                return;
+            }
+
+            const formData = new FormData(quoteForm);
+            const fullName = (formData.get('Full Name') || '').trim();
+            const phone = (formData.get('Phone') || '').trim();
+            const service = (formData.get('Service') || '').trim();
+            const propertySize = (formData.get('Property Size') || '').trim();
+            const pickupLocation = (formData.get('Pickup Location') || '').trim();
+            const pickupFloor = (formData.get('Pickup Floor') || '').trim();
+            const dropoffLocation = (formData.get('Dropoff Location') || '').trim();
+            const dropoffFloor = (formData.get('Dropoff Floor') || '').trim();
+            const preferredDate = (formData.get('Preferred Date') || '').trim();
+            const notes = (formData.get('Notes') || '').trim();
+
+            const message = [
+                'Hello Alphajiri Movers & Cleaners,',
+                '',
+                'I would like to request a quotation for the following service.',
+                '',
+                'Client Details:',
+                `• Full Name: ${fullName || 'Not provided'}`,
+                `• Phone: ${phone || 'Not provided'}`,
+                `• Service Type: ${service || 'Not provided'}`,
+                `• Property Size: ${propertySize || 'Not provided'}`,
+                '',
+                isMovingService ? 'Moving Details:' : 'Service Details:',
+                isMovingService ? `• From Location: ${pickupLocation || 'Not provided'}` : '',
+                isMovingService ? `• From Floor: ${pickupFloor || 'Not provided'}` : '',
+                isMovingService ? `• To Location: ${dropoffLocation || 'Not provided'}` : '',
+                isMovingService ? `• To Floor: ${dropoffFloor || 'Not provided'}` : '',
+                `• Preferred Date: ${preferredDate || 'Not provided'}`,
+                '',
+                'Additional Information:',
+                notes ? `• Notes: ${notes}` : '• Notes: None provided',
+                '',
+                'Please share the quotation and next steps with me.'
+            ].filter(Boolean).join('\n');
+
+            const whatsappUrl = 'https://wa.me/254708076946?text=' + encodeURIComponent(message);
+            window.open(whatsappUrl, '_blank');
+        });
+    }
+
+    const hashTarget = window.location.hash;
+    if (hashTarget === '#quote-form') {
+        const quoteFormBlock = document.getElementById('quote-form');
+        if (quoteFormBlock) {
+            setTimeout(() => {
+                quoteFormBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 200);
+        }
+    }
+
     // === Set minimum date to tomorrow ===
     const dateInput = document.querySelector('input[type="date"]');
     if (dateInput) {

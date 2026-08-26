@@ -2,6 +2,17 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
+    if (window.AOS) {
+        window.AOS.init({ duration: 800, once: true, offset: 80 });
+    }
+
+    const nav = document.getElementById('mainNavbar');
+    if (nav) {
+        const updateNavbar = () => nav.classList.toggle('scrolled', window.scrollY > 50);
+        updateNavbar();
+        window.addEventListener('scroll', updateNavbar, { passive: true });
+    }
+
     function applyResponsiveMode() {
         const isMobile = window.matchMedia('(max-width: 991px)').matches ||
             window.matchMedia('(pointer: coarse)').matches ||
@@ -73,6 +84,30 @@ document.addEventListener('DOMContentLoaded', function() {
         'Courier',
         'Combo'
     ];
+    const allowedServiceNames = [
+        ...movingServiceNames,
+        'Deep Cleaning',
+        'Post-Construction Cleaning',
+        'Fumigation',
+        'Storage'
+    ];
+
+    function normalizedField(formData, fieldName, maxLength) {
+        return String(formData.get(fieldName) || '')
+            .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .slice(0, maxLength);
+    }
+
+    function wasRecentlySubmitted() {
+        try {
+            const lastSubmission = Number(sessionStorage.getItem('quoteSubmittedAt') || 0);
+            return Date.now() - lastSubmission < 10000;
+        } catch (error) {
+            return false;
+        }
+    }
 
     function updateLocationFields() {
         const serviceValue = serviceSelect ? serviceSelect.value : '';
@@ -109,6 +144,8 @@ document.addEventListener('DOMContentLoaded', function() {
         quoteForm.addEventListener('submit', function(event) {
             event.preventDefault();
 
+            if (wasRecentlySubmitted()) return;
+
             const isMovingService = movingServiceNames.includes(serviceSelect ? serviceSelect.value : '');
             if (isMovingService) {
                 const pickupLocationInput = document.querySelector('input[name="Pickup Location"]');
@@ -125,16 +162,28 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const formData = new FormData(quoteForm);
-            const fullName = (formData.get('Full Name') || '').trim();
-            const phone = (formData.get('Phone') || '').trim();
-            const service = (formData.get('Service') || '').trim();
-            const propertySize = (formData.get('Property Size') || '').trim();
-            const pickupLocation = (formData.get('Pickup Location') || '').trim();
-            const pickupFloor = (formData.get('Pickup Floor') || '').trim();
-            const dropoffLocation = (formData.get('Dropoff Location') || '').trim();
-            const dropoffFloor = (formData.get('Dropoff Floor') || '').trim();
-            const preferredDate = (formData.get('Preferred Date') || '').trim();
-            const notes = (formData.get('Notes') || '').trim();
+            const fullName = normalizedField(formData, 'Full Name', 80);
+            const phone = normalizedField(formData, 'Phone', 30);
+            const service = normalizedField(formData, 'Service', 40);
+            const propertySize = normalizedField(formData, 'Property Size', 100);
+            const pickupLocation = normalizedField(formData, 'Pickup Location', 120);
+            const pickupFloor = normalizedField(formData, 'Pickup Floor', 40);
+            const dropoffLocation = normalizedField(formData, 'Dropoff Location', 120);
+            const dropoffFloor = normalizedField(formData, 'Dropoff Floor', 40);
+            const preferredDate = normalizedField(formData, 'Preferred Date', 10);
+            const notes = normalizedField(formData, 'Notes', 500);
+
+            const requestedDate = new Date(`${preferredDate}T00:00:00`);
+            const tomorrow = new Date();
+            tomorrow.setHours(0, 0, 0, 0);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            if (!allowedServiceNames.includes(service) ||
+                !/^\+?[0-9 ()-]{7,20}$/.test(phone) ||
+                fullName.length < 2 || propertySize.length < 2 ||
+                Number.isNaN(requestedDate.getTime()) || requestedDate < tomorrow) {
+                quoteForm.reportValidity();
+                return;
+            }
 
             const message = [
                 'Hello Alphajiri Movers & Cleaners,',
@@ -161,7 +210,12 @@ document.addEventListener('DOMContentLoaded', function() {
             ].filter(Boolean).join('\n');
 
             const whatsappUrl = 'https://wa.me/254708076946?text=' + encodeURIComponent(message);
-            window.open(whatsappUrl, '_blank');
+            try {
+                sessionStorage.setItem('quoteSubmittedAt', String(Date.now()));
+            } catch (error) {
+                // Session storage can be unavailable in privacy-restricted browsers.
+            }
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
         });
     }
 

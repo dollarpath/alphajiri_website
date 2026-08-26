@@ -207,7 +207,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Hero */
 .hero {
     position: relative;
-    min-height: 90vh;
+    min-height: 78vh;
     background: var(--gradient-hero),
                 url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80') center/cover;
     color: white;
@@ -283,7 +283,7 @@ h1, h2, h3, h4, h5, h6 {
 .page-header {
     background: var(--gradient-primary);
     color: white;
-    padding: 100px 0 60px;
+    padding: 72px 0 44px;
     position: relative;
     overflow: hidden;
 }
@@ -303,8 +303,8 @@ h1, h2, h3, h4, h5, h6 {
 .page-header .breadcrumb-item + .breadcrumb-item::before { color: rgba(255,255,255,0.4); }
 
 /* Sections */
-.section { padding: 100px 0; }
-.section-title { text-align: center; margin-bottom: 3.5rem; }
+.section { padding: 72px 0; }
+.section-title { text-align: center; margin-bottom: 2.5rem; }
 .section-title .subtitle,
 .subtitle-text {
     color: var(--accent);
@@ -322,7 +322,7 @@ h1, h2, h3, h4, h5, h6 {
 .service-card {
     background: white;
     border-radius: var(--radius-lg);
-    padding: 2.2rem;
+    padding: 1.7rem;
     height: 100%;
     box-shadow: var(--shadow-md);
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -381,7 +381,7 @@ h1, h2, h3, h4, h5, h6 {
 .service-link:hover { color: var(--accent-dark); gap: 10px; }
 
 /* Feature rows */
-.feature-row { display: flex; gap: 1.2rem; margin-bottom: 1.8rem; align-items: flex-start; }
+.feature-row { display: flex; gap: 1.2rem; margin-bottom: 1.35rem; align-items: flex-start; }
 .feature-icon {
     flex-shrink: 0;
     width: 56px; height: 56px;
@@ -398,7 +398,7 @@ h1, h2, h3, h4, h5, h6 {
 .stats-bar {
     background: var(--gradient-primary);
     color: white;
-    padding: 70px 0;
+    padding: 52px 0;
     position: relative;
     overflow: hidden;
 }
@@ -413,7 +413,7 @@ h1, h2, h3, h4, h5, h6 {
 .testimonial-card {
     background: white;
     border-radius: var(--radius-lg);
-    padding: 2.2rem;
+    padding: 1.7rem;
     height: 100%;
     box-shadow: var(--shadow-md);
     position: relative;
@@ -521,7 +521,7 @@ h1, h2, h3, h4, h5, h6 {
 .cta-banner {
     background: var(--gradient-accent);
     color: white;
-    padding: 80px 0;
+    padding: 60px 0;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -588,7 +588,7 @@ h1, h2, h3, h4, h5, h6 {
 .footer {
     background: var(--dark);
     color: rgba(255,255,255,0.75);
-    padding: 80px 0 30px;
+    padding: 60px 0 26px;
 }
 .footer h5 { color: white; margin-bottom: 1.3rem; font-size: 1.05rem; }
 .footer-brand-block {
@@ -638,6 +638,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .footer hr { border-color: rgba(255,255,255,0.1); margin: 2.5rem 0 1.5rem; }
 
+/* Keep wide layouts balanced without oversized Bootstrap gutters. */
+.row.g-5 { --bs-gutter-x: 2rem; --bs-gutter-y: 2rem; }
+
 /* Floating WhatsApp */
 .whatsapp-float {
     position: fixed;
@@ -684,7 +687,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Responsive */
 @media (max-width: 991px) {
-    .hero { min-height: auto; padding: 80px 0 60px; }
+    .hero { min-height: auto; padding: 64px 0 52px; }
     .hero h1 { font-size: 2.6rem; }
     .hero-logo-large { width: 220px; height: 220px; margin: 0 auto 2rem; display: block; }
     .top-bar { display: none; }
@@ -714,9 +717,9 @@ h1, h2, h3, h4, h5, h6 {
     .navbar .btn { width: 100%; justify-content: center; margin-top: 0.4rem; }
 }
 @media (max-width: 767px) {
-    .section { padding: 60px 0; }
+    .section { padding: 48px 0; }
     .section-title h2 { font-size: 1.8rem; }
-    .page-header { padding: 80px 0 40px; }
+    .page-header { padding: 60px 0 32px; }
     .page-header h1 { font-size: 2rem; }
     .hero h1 { font-size: 2.1rem; }
     .cta-banner h2 { font-size: 1.6rem; }
